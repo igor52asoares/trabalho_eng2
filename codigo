@@ -1,0 +1,183 @@
+//Testando alteraÃ§Ã£o!
+//bibliotecas
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+//Estrutura de dados
+typedef struct nodo{
+    char info;
+    struct nodo *prox;
+}nodo;
+// variaveis globais
+struct nodo *inicio = NULL;
+//prototipos
+void menu();
+void insere(nodo **, char);
+void imprime();
+void analisa(nodo *);
+void retirarlista (nodo **, char);
+//função menu();
+void menu(){
+
+        int op;
+        char letra;
+
+
+  do
+    {
+
+        printf ("\n\n                  #  TRABALHO DE ESTRUTURA DE DADOS I  #\n\n\n");
+        printf ("\n       MENU\n");
+        printf ("\n       [1] CADASTRAR LETRAS NA LISTA\n");
+        printf ("\n       [2] ANALISAR LISTA\n");
+        printf ("\n       [3] VISUALIZAR LISTA\n");
+        printf ("\n       [4] REMOVER LISTA\n");
+        printf ("\n       [5] ENCERRAR PROGRAMA\n");
+        printf ("\n\n\n    DIGITE AQUI A OPC<'128'AO DESEJADA:    ");
+        scanf ("%d", &op);
+	system ("clear");
+        switch (op)
+        {
+            case 1:
+                        do{
+                            fflush(stdin);
+                            printf("Insira a letra \n");
+                            scanf("%c",&letra);
+                            if((letra != 'a') && (letra != 'b') && (letra != 'c')){
+                                printf("Só é permitido letras a, b e c");
+                            }else{
+                                insere(&inicio,letra);
+                                 }
+                        }while(letra != '#');
+                        system ("cls");
+                        fflush(stdin);
+                    break;
+            case 2: analisa(inicio);
+                    break;
+            case 3: imprime();
+                    break;
+            case 4: retirarlista(&inicio,letra);
+                    break;
+        }
+    }while (op!=5);
+}
+
+void insere(nodo **inicio, char letra) //função insere. ** significa força passagem por parametro.
+{
+     nodo *novo, *aux; //criando uma variavel do tipo Nodo
+
+     novo = (nodo *) malloc(sizeof (nodo)); //Atribuindo valor para variavél novo igual ao endereço alocada
+
+     if(novo == NULL)
+     {
+             printf("Erro de Memoria");
+             exit(1);
+     }
+
+     novo->info = letra; // atribuindo valor n a variavel novo
+     novo->prox = NULL;
+
+     if (*inicio == NULL)
+     {
+                *inicio = novo;
+     }
+
+     else
+     {
+         aux = *inicio;
+
+         while( aux->prox != NULL){
+
+         aux = aux->prox;
+         }
+         aux->prox = novo;
+     }
+
+}
+
+void retirarlista (nodo **inicio, char letra)
+{
+     nodo *aux, *ant, *atual;
+     ant==NULL;
+     atual=*inicio;
+     while(atual != NULL)
+     {
+        *inicio=(*inicio) -> prox;
+        aux=atual;
+        atual=atual->prox;
+        free(aux);
+     }
+}
+
+void imprime()
+{
+     int op;
+     do{
+     nodo *aux;
+     aux = inicio;
+     printf("\n\nLista de letras:\n\n");
+     while(aux != NULL)
+     {
+               printf("%c", aux->info);
+               aux = aux->prox;
+     }
+     printf("\n\n\nDigite 1 para voltar ao menu:\n");
+     scanf("%d",&op);
+     }while(op!=1);
+     system ("cls");
+}
+
+void analisa(nodo *inicio){
+nodo *aux;
+int cont = 0;
+bool cond = false;
+aux = inicio;
+	while((aux != NULL) && (aux->info == 'a')){
+		cond = true;
+		aux = aux->prox;
+	}
+	if(aux!=NULL)
+	{
+		while((aux != NULL) && (aux->info == 'c') && (cond == true))
+        {
+			cont++;
+			aux = aux->prox;
+        }
+        if(aux!=NULL)
+        {
+            if((cont != 0) && ((cont % 2) == 0))
+            {
+			   while((aux != NULL) && (aux->info == 'b') && (cond == true))
+               {
+				         aux = aux->prox;
+                 }
+
+                 if(aux == NULL) {
+                        printf("\nA ordem da lista e compativel com a condicao Ac^nB!");
+                        imprime();
+                 }else{
+                       printf("\nA ordem da lista nao e compativel com a condicao Ac^nB!");
+                       imprime();
+			   }
+            }else{
+                  printf("\nA ordem da lista nao e compativel com a condicao Ac^nB!");
+                  imprime();
+                 }
+        }else{
+              printf("\nA ordem da lista nao e compativel com a condicao Ac^nB!");
+              imprime();
+             }
+    }else{
+          printf("\nA ordem da lista nao e compativel com a condicao Ac^nB!");
+          imprime();
+          }
+}
+
+int main(){
+
+    menu();
+
+    getchar();
+    getchar();
+
+}
